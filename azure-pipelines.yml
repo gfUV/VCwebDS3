@@ -33,4 +33,5 @@ steps:
       app_location: '/' # Ruta raíz de tu frontend en el repositorio
       output_location: 'dist' # Carpeta de distribución que genera Vite
       azure_static_web_apps_api_token: $(FRONTEND_DEPLOY_TOKEN) # Tu token específico e inteligente
+      skip_app_build: true
     displayName: '4. Desplegar de forma segura en Azure'
