@@ -44,7 +44,7 @@ const About = () => {
                 <ul className="space-y-2 text-center">
                   <li className="text-gray-700">• Diego Fernando Payan</li>
                   <li className="text-gray-700">• Germán Enrique Franco Valencia</li>
-                  <li className="text-gray-700">• Brayan Steven Fernández</li>
+                  <li className="text-gray-700">• Cristian Andres Velasco</li>
                   <li className="text-gray-700">• María Alexandra Morales</li>
                   <li className="text-gray-700">• Benjamín Rizo Luna</li>
                 </ul>
