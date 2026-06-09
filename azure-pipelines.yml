@@ -1,25 +1,15 @@
 trigger:
   - master # El pipeline se activará cuando subas cambios a la rama main
 
-variables:
-  - group: VCwebDS3-Variables # Conecta el grupo de variables de tu Library
-
 pool:
   vmImage: ubuntu-latest # Servidor Linux virtual en la nube para compilar
 
 steps:
-  - task: NodeTool@0
+  - task: AzureStaticWebApp@0
     inputs:
-      versionSpec: '20.x'
-    displayName: '1. Instalar Node.js'
-
-  - script: |
-      npm install
-    displayName: '2. Instalar Dependencias del Proyecto'
-
-  - script: |
-      npm run build
-    displayName: '3. Compilar el Frontend (React/Vite)'
+      app_location: '/' 
+      output_location: 'dist' 
+      azure_static_web_apps_api_token: $(FRONTEND_DEPLOY_TOKEN)
     env:
       VITE_FIREBASE_API_KEY: "AIzaSyCzkqJchiLc38jEl2W6UELzYRlRLMutwas"
       VITE_FIREBASE_AUTH_DOMAIN: "vcwebds3.firebaseapp.com"
@@ -27,11 +17,4 @@ steps:
       VITE_FIREBASE_STORAGE_BUCKET: "vcwebds3.firebasestorage.app"
       VITE_FIREBASE_MESSAGING_SENDER_ID: "901344005942"
       VITE_FIREBASE_APP_ID: "901344005942:web:efe4a1d869aea98dc72d97"
-
-  - task: AzureStaticWebApp@0
-    inputs:
-      app_location: '/' # Ruta raíz de tu frontend en el repositorio
-      output_location: 'dist' # Carpeta de distribución que genera Vite
-      azure_static_web_apps_api_token: $(FRONTEND_DEPLOY_TOKEN) # Tu token específico e inteligente
-      skip_app_build: true
     displayName: '4. Desplegar de forma segura en Azure'
