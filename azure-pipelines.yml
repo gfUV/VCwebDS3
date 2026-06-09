@@ -1,0 +1,29 @@
+trigger:
+  - main # El pipeline se activará cuando subas cambios a la rama main
+
+variables:
+  - group: VCwebDS3-Variables # Conecta el grupo de variables de tu Library
+
+pool:
+  vmImage: ubuntu-latest # Servidor Linux virtual en la nube para compilar
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '20.x'
+    displayName: '1. Instalar Node.js'
+
+  - script: |
+      npm install
+    displayName: '2. Instalar Dependencias del Proyecto'
+
+  - script: |
+      npm run build
+    displayName: '3. Compilar el Frontend (React/Vite)'
+
+  - task: AzureStaticWebApp@0
+    inputs:
+      app_location: '/' # Ruta raíz de tu frontend en el repositorio
+      output_location: 'dist' # Carpeta de distribución que genera Vite
+      azure_static_web_apps_api_token: $(FRONTEND_DEPLOY_TOKEN) # Tu token específico e inteligente
+    displayName: '4. Desplegar de forma segura en Azure'
