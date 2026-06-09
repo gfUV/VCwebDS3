@@ -1,5 +1,5 @@
 trigger:
-  - main # El pipeline se activará cuando subas cambios a la rama main
+  - master # El pipeline se activará cuando subas cambios a la rama main
 
 variables:
   - group: VCwebDS3-Variables # Conecta el grupo de variables de tu Library
