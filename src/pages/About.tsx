@@ -42,7 +42,7 @@ const About = () => {
                 </h4>
 
                 <ul className="space-y-2 text-center">
-                  <li className="text-gray-700">• Marco Fidel Castro Velasco</li>
+                  <li className="text-gray-700">• Diego Fernando Payan</li>
                   <li className="text-gray-700">• Germán Enrique Franco Valencia</li>
                   <li className="text-gray-700">• Brayan Steven Fernández</li>
                   <li className="text-gray-700">• María Alexandra Morales</li>
