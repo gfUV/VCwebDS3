@@ -1,34 +1,27 @@
 trigger:
   - master
 
+# 1. Volvemos a conectar tu caja fuerte para que lea el token de despliegue
+variables:
+  - group: VCwebDS3-Variables
+
 pool:
   vmImage: ubuntu-latest
 
 steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '20.x'
-    displayName: '1. Instalar Node.js'
-
-  - script: |
-      npm install
-    displayName: '2. Instalar Dependencias'
-
-  - script: |
-      npm run build
-    displayName: '3. Compilar el Frontend (React/Vite)'
-    env:
-       VITE_FIREBASE_API_KEY: "AIzaSyCzkqJchiLc38jEl2W6UELzYRlRLMutwas"
-       VITE_FIREBASE_AUTH_DOMAIN: "vcwebds3.firebaseapp.com"
-       VITE_FIREBASE_PROJECT_ID: "vcwebds3"
-       VITE_FIREBASE_STORAGE_BUCKET: "vcwebds3.firebasestorage.app"
-       VITE_FIREBASE_MESSAGING_SENDER_ID: "901344005942"
-       VITE_FIREBASE_APP_ID: "901344005942:web:efe4a1d869aea98dc72d97"
-
   - task: AzureStaticWebApp@0
     inputs:
-      app_location: 'dist'
-      output_location: '' # Se deja vacío porque ya estamos en la carpeta final
+      app_location: '/'
+      output_location: 'dist'
       azure_static_web_apps_api_token: $(FRONTEND_DEPLOY_TOKEN)
-      skip_app_build: true # Bloqueamos al motor conflictivo de Azure
-    displayName: '4. Subir archivos a Azure'
+    env:
+      # 2. LA CLAVE: Forzamos a Azure a usar Node 20 para que Vite no falle
+      NODE_VERSION: '20.x'
+      
+      VITE_FIREBASE_API_KEY: "AIzaSyCzkqJchiLc38jEl2W6UELzYRlRLMutwas"
+      VITE_FIREBASE_AUTH_DOMAIN: "vcwebds3.firebaseapp.com"
+      VITE_FIREBASE_PROJECT_ID: "vcwebds3"
+      VITE_FIREBASE_STORAGE_BUCKET: "vcwebds3.firebasestorage.app"
+      VITE_FIREBASE_MESSAGING_SENDER_ID: "901344005942"
+      VITE_FIREBASE_APP_ID: "901344005942:web:efe4a1d869aea98dc72d97"
+    displayName: 'Compilar y Desplegar Frontend en Azure'
